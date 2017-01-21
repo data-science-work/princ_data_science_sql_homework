@@ -6,20 +6,6 @@ USE lipscomb;
 /* ---------- LISPCOMB DB ---------- */
 
 
-/* ---------- DEFINITIONS ----------
-pk                                = primary key
-fk                                = foreign key
-referential integrity constraints = ric
-*/
-
-
-/*---------- COURSE TABLE ----------
-pk: course_id
-fk: none
-ric:
-    on update: none
-    on delete: none
-*/
 CREATE TABLE `course` (
     `course_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
     `course_no` VARCHAR(10) NOT NULL,
@@ -63,8 +49,7 @@ CREATE TABLE `faculty` (
     `loc_id` INTEGER,
     FOREIGN KEY (`loc_id`)
         REFERENCES location (`loc_id`)
-        ON UPDATE CASCADE
-        ON DELETE RESTRICT
+        ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 
@@ -93,8 +78,7 @@ CREATE TABLE `student` (
     `f_id` INTEGER,
     FOREIGN KEY (`f_id`)
         REFERENCES faculty (`f_id`)
-        ON UPDATE CASCADE 
-        ON DELETE RESTRICT
+        ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 
@@ -117,7 +101,7 @@ CREATE TABLE `term` (
 pk: c_sec_id
 fk: course_id, term_id, f_id, loc_id
 ric:
-    on update: cascade  | will update the enrollment table.
+    on update: cascade   | will update the enrollment table.
     on delete: no action | delete no action on the tabels course,
                           term, faculty and location.
 */
@@ -134,20 +118,16 @@ CREATE TABLE `course_section` (
     `max_enrl` INTEGER,
     FOREIGN KEY (`course_id`)
         REFERENCES course (`course_id`)
-        ON UPDATE CASCADE 
-        ON DELETE NO ACTION,
+        ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (`term_id`)
         REFERENCES term (`term_id`)
-        ON UPDATE CASCADE 
-        ON DELETE NO ACTION,
+        ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (`f_id`)
         REFERENCES faculty (`f_id`)
-        ON UPDATE CASCADE 
-        ON DELETE NO ACTION,
+        ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (`loc_id`)
         REFERENCES location (`loc_id`)
-        ON UPDATE CASCADE
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE ON DELETE NO ACTION
 );
 
 
@@ -166,10 +146,8 @@ CREATE TABLE `enrollment` (
     `grade` VARCHAR(1),
     FOREIGN KEY (`s_id`)
         REFERENCES student (`s_id`)
-        ON UPDATE CASCADE 
-        ON DELETE NO ACTION,
+        ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (`c_sec_id`)
         REFERENCES course_section (`c_sec_id`)
-        ON UPDATE CASCADE 
-        ON DELETE RESTRICT
+        ON UPDATE CASCADE ON DELETE RESTRICT
 );
