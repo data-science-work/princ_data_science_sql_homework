@@ -45,7 +45,7 @@ CREATE TABLE `student` (
   `s_class` VARCHAR(5) NOT NULL,
   `s_dob` DATE NOT NULL,
   `s_pin` VARCHAR(4) NOT NULL,
-  `date_enrolled` DATE
+  `date_enrolled` DATE,
   `f_id` INTEGER,
   FOREIGN KEY `fk_faculty`(`f_id`)
   REFERENCES faculty(`f_id`)
@@ -86,7 +86,7 @@ CREATE TABLE `course_section` (
   FOREIGN KEY `fk_faculty_id`(`f_id`)
   REFERENCES faculty(`f_id`)
   ON UPDATE CASCADE
-  ON DELETE RESTRIC,
+  ON DELETE RESTRICT,
 
   FOREIGN KEY `fk_location_id`(`loc_id`)
   REFERENCES location(`loc_id`)
