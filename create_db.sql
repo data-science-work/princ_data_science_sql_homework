@@ -20,8 +20,8 @@ CREATE TABLE `faculty` (
     `f_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
     `f_last` VARCHAR(50) NOT NULL,
     `f_first` VARCHAR(50) NOT NULL,
-    `f_mi` VARCHAR(1) NOT NULL,
-    `f_phone` VARCHAR(15) NOT NULL,
+    `f_mi` VARCHAR(1),
+    `f_phone` VARCHAR(15),
     `f_rank` VARCHAR(30) NOT NULL,
     `f_super` TINYINT,
     `f_pin` VARCHAR(4) NOT NULL,
@@ -53,8 +53,7 @@ CREATE TABLE `student` (
 
 CREATE TABLE `term` (
     `term_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `term_desc` VARCHAR(10) NOT NULL,
-    `term_desc_year` YEAR NOT NULL,
+    `term_desc` VARCHAR(20) NOT NULL,
     `status` VARCHAR(6) NOT NULL,
     `start_date` DATE NOT NULL
 );
@@ -72,16 +71,16 @@ CREATE TABLE `course_section` (
     `max_enrl` TINYINT,
     FOREIGN KEY (`course_id`)
         REFERENCES course (`course_id`)
-        ON UPDATE CASCADE ON DELETE RESTRICT,
+        ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (`term_id`)
         REFERENCES term (`term_id`)
-        ON UPDATE CASCADE ON DELETE RESTRICT,
+        ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (`f_id`)
         REFERENCES faculty (`f_id`)
-        ON UPDATE CASCADE ON DELETE RESTRICT,
+        ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (`loc_id`)
         REFERENCES location (`loc_id`)
-        ON UPDATE CASCADE ON DELETE RESTRICT
+        ON UPDATE CASCADE ON DELETE NO ACTION
 );
 
 CREATE TABLE `enrollment` (
@@ -91,7 +90,7 @@ CREATE TABLE `enrollment` (
     `grade` VARCHAR(1),
     FOREIGN KEY (`s_id`)
         REFERENCES student (`s_id`)
-        ON UPDATE CASCADE ON DELETE RESTRICT,
+        ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (`c_sec_id`)
         REFERENCES course_section (`c_sec_id`)
         ON UPDATE CASCADE ON DELETE RESTRICT
