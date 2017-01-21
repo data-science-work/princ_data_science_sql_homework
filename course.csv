@@ -1,0 +1,7 @@
+COURSE_ID,COURSE_NO,COURSE_NAME,CREDITS
+Number,String,String,Number
+1,IT 101,Intro. to Info. Tech.,3
+2,IS 301,Systems Analysis,3
+3,IT 240,Intro. to Database Systems,3
+4,CS 120,Intro. To Programming in C++,3
+5,IT 451,Web-Based Systems,3
