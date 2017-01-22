@@ -1,0 +1,7 @@
+LOAD DATA LOCAL INFILE 'Users/gdiaz/Documents/OneDrive/Documents/lipscomb/spring2017/pinc_data_science/sql_homework/Course.csv' 
+INTO TABLE COURSE
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 2 ROWS
+(COURSE_ID,COURSE_NO,COURSE_NAME,CREDITS);

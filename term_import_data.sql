@@ -1,0 +1,10 @@
+LOAD DATA LOCAL INFILE 'Users/gdiaz/Documents/OneDrive/Documents/lipscomb/spring2017/pinc_data_science/sql_homework/Term.csv' 
+INTO TABLE TERM
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 2 ROWS
+(TERM_ID,TERM_DESC,STATUS,@START_DATE)
+SET START_DATE = STR_TO_DATE(@START_DATE, '%d/%b/%y');
+
+SELECT * FROM TERM;
