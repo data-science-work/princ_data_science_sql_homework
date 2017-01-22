@@ -1,133 +1,139 @@
-CREATE DATABASE IF NOT EXISTS lipscomb;
+CREATE DATABASE IF NOT EXISTS LIPSCOMB;
 
-USE lipscomb;
+USE LIPSCOMB;
 
 
 /* ---------- LISPCOMB DB ---------- */
 
 
-CREATE TABLE `course` (
-    `course_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `course_no` VARCHAR(10) NOT NULL,
-    `course_name` VARCHAR(50) NOT NULL,
-    `credits` TINYINT NOT NULL
+CREATE TABLE `COURSE` (
+    `COURSE_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `COURSE_NO` VARCHAR(10) NOT NULL,
+    `COURSE_NAME` VARCHAR(50) NOT NULL,
+    `CREDITS` TINYINT NOT NULL
 );
 
 
 /*---------- LOCATION TABLE ----------
-pk: loc_id
+pk: LOC_ID
 fk: none
 ric:
     on update: none
     on delete: none
 */
-CREATE TABLE `location` (
-    `loc_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `bldg_code` VARCHAR(10) NOT NULL,
-    `room` VARCHAR(5) NOT NULL,
-    `capacity` INTEGER NOT NULL
+CREATE TABLE `LOCATION` (
+    `LOC_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `BLDG_CODE` VARCHAR(10) NOT NULL,
+    `ROOM` VARCHAR(5) NOT NULL,
+    `CAPACITY` INTEGER NOT NULL
 );
 
 
 /*---------- FACULTY TABLE ----------
-pk: f_id
-fk: loc_id
+pk: F_ID
+fk: LOC_ID
 ric:
     on update: cascade | will update the student table and course_section table.
     on delte: restrict | delete is restricted the location table since
                          location are asigned to faculty members.
 */
-CREATE TABLE `faculty` (
-    `f_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `f_last` VARCHAR(50) NOT NULL,
-    `f_first` VARCHAR(50) NOT NULL,
-    `f_mi` VARCHAR(1),
-    `f_phone` VARCHAR(15),
-    `f_rank` VARCHAR(30) NOT NULL,
-    `f_super` INTEGER,
-    `f_pin` VARCHAR(4) NOT NULL,
-    `loc_id` INTEGER,
-    FOREIGN KEY (`loc_id`)
-        REFERENCES location (`loc_id`)
-        ON UPDATE CASCADE ON DELETE RESTRICT
+CREATE TABLE `FACULTY` (
+    `F_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `F_LAST` VARCHAR(50) NOT NULL,
+    `F_FIRST` VARCHAR(50) NOT NULL,
+    `F_MI` VARCHAR(1),
+    `F_PHONE` VARCHAR(15),
+    `F_RANK` VARCHAR(30) NOT NULL,
+    `F_SUPER` INTEGER,
+    `F_PIN` VARCHAR(4) NOT NULL,
+    `LOC_ID` INTEGER,
+    FOREIGN KEY (`LOC_ID`)
+        REFERENCES location (`LOC_ID`)
+        ON UPDATE CASCADE 
+        ON DELETE RESTRICT
 );
 
 
 /*---------- STUDENT TABLE ----------
-pk: s_id
-fk: f_id
+pk: S_ID
+fk: F_ID
 ric:
     on update: cascade  | will update the faculty table and enrollment table.
     on delete: restrict | delete is restricted to the faculty table since 
                          students are asigned to faculty members.
 */
-CREATE TABLE `student` (
-    `s_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `s_last` VARCHAR(50) NOT NULL,
-    `s_first` VARCHAR(50) NOT NULL,
-    `s_mi` VARCHAR(1) NOT NULL,
-    `s_address` VARCHAR(75) NOT NULL,
-    `s_city` VARCHAR(50) NOT NULL,
-    `s_state` VARCHAR(2) NOT NULL,
-    `s_zip` VARCHAR(5) NOT NULL,
-    `s_phone` VARCHAR(15) NOT NULL,
-    `s_class` VARCHAR(5) NOT NULL,
-    `s_dob` DATE NOT NULL,
-    `s_pin` VARCHAR(4) NOT NULL,
-    `date_enrolled` DATE,
-    `f_id` INTEGER,
-    FOREIGN KEY (`f_id`)
-        REFERENCES faculty (`f_id`)
-        ON UPDATE CASCADE ON DELETE RESTRICT
+CREATE TABLE `STUDENT` (
+    `S_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `S_LAST` VARCHAR(50) NOT NULL,
+    `S_FIRST` VARCHAR(50) NOT NULL,
+    `S_MI` VARCHAR(1) NOT NULL,
+    `S_ADDRESS` VARCHAR(75) NOT NULL,
+    `S_CITY` VARCHAR(50) NOT NULL,
+    `S_STATE` VARCHAR(2) NOT NULL,
+    `S_ZIP` VARCHAR(5) NOT NULL,
+    `S_PHONE` VARCHAR(15) NOT NULL,
+    `S_CLASS` VARCHAR(5) NOT NULL,
+    S_DOB DATE NOT NULL,
+    `S_PIN` VARCHAR(4) NOT NULL,
+    `DATE_ENROLLED` DATE,
+    `F_ID` INTEGER,
+    FOREIGN KEY (`F_ID`)
+        REFERENCES FACULTY (`F_ID`)
+        ON UPDATE CASCADE 
+        ON DELETE RESTRICT
 );
 
 
 /*---------- TERM TABLE ----------
-pk: term_id
+pk: TERM_ID
 fk: none
 ric:
     on update: none
     on delete: none
 */
-CREATE TABLE `term` (
-    `term_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `term_desc` VARCHAR(20) NOT NULL,
-    `status` VARCHAR(6) NOT NULL,
-    `start_date` DATE NOT NULL
+CREATE TABLE `TERM` (
+    `TERM_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `TERM_DESC` VARCHAR(20) NOT NULL,
+    `STATUS` VARCHAR(6) NOT NULL,
+    `START_DATE` DATE NOT NULL
 );
 
 
 /*---------- COURSE_SECTION TABLE ----------
-pk: c_sec_id
-fk: course_id, term_id, f_id, loc_id
+pk: C_SEC_ID
+fk: COURSE_ID, TERM_ID, F_ID, LOC_ID
 ric:
     on update: cascade   | will update the enrollment table.
     on delete: no action | delete no action on the tabels course,
                           term, faculty and location.
 */
-CREATE TABLE `course_section` (
-    `c_sec_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `course_id` INTEGER NOT NULL,
-    `term_id` INTEGER NOT NULL,
-    `sec_num` INTEGER NOT NULL,
-    `f_id` INTEGER NOT NULL,
-    `mtg_days` VARCHAR(7) NOT NULL,
-    `start_time` TIME NOT NULL,
-    `end_time` TIME NOT NULL,
-    `loc_id` INTEGER,
-    `max_enrl` INTEGER,
-    FOREIGN KEY (`course_id`)
-        REFERENCES course (`course_id`)
-        ON UPDATE CASCADE ON DELETE NO ACTION,
-    FOREIGN KEY (`term_id`)
-        REFERENCES term (`term_id`)
-        ON UPDATE CASCADE ON DELETE NO ACTION,
-    FOREIGN KEY (`f_id`)
-        REFERENCES faculty (`f_id`)
-        ON UPDATE CASCADE ON DELETE NO ACTION,
-    FOREIGN KEY (`loc_id`)
-        REFERENCES location (`loc_id`)
-        ON UPDATE CASCADE ON DELETE NO ACTION
+CREATE TABLE `COURSE_SECTION` (
+    `C_SEC_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `COURSE_ID` INTEGER NOT NULL,
+    `TERM_ID` INTEGER NOT NULL,
+    `SEC_NUM` INTEGER NOT NULL,
+    `F_ID` INTEGER NOT NULL,
+    `MTG_DAYS` VARCHAR(7) NOT NULL,
+    `START_TIME` TIME NOT NULL,
+    `END_TIME` TIME NOT NULL,
+    `LOC_ID` INTEGER,
+    `MAX_ENRL` INTEGER,
+    FOREIGN KEY (`COURSE_ID`)
+        REFERENCES course (`COURSE_ID`)
+        ON UPDATE CASCADE 
+        ON DELETE NO ACTION,
+    FOREIGN KEY (`TERM_ID`)
+        REFERENCES term (`TERM_ID`)
+        ON UPDATE CASCADE 
+        ON DELETE NO ACTION,
+    FOREIGN KEY (`F_ID`)
+        REFERENCES faculty (`F_ID`)
+        ON UPDATE CASCADE 
+        ON DELETE NO ACTION,
+    FOREIGN KEY (`LOC_ID`)
+        REFERENCES location (`LOC_ID`)
+        ON UPDATE CASCADE 
+        ON DELETE NO ACTION
 );
 
 
@@ -139,15 +145,17 @@ ric:
     on delete: restrict and no action | delete is restricted on course_section table
                                         and no action on student table.
 */
-CREATE TABLE `enrollment` (
-    `enr_id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `s_id` INTEGER NOT NULL,
-    `c_sec_id` INTEGER NOT NULL,
-    `grade` VARCHAR(1),
-    FOREIGN KEY (`s_id`)
-        REFERENCES student (`s_id`)
-        ON UPDATE CASCADE ON DELETE NO ACTION,
-    FOREIGN KEY (`c_sec_id`)
-        REFERENCES course_section (`c_sec_id`)
-        ON UPDATE CASCADE ON DELETE RESTRICT
+CREATE TABLE `ENROLLMENT` (
+    `ENR_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `S_ID` INTEGER NOT NULL,
+    `C_SEC_ID` INTEGER NOT NULL,
+    `GRADE` VARCHAR(1),
+    FOREIGN KEY (`S_ID`)
+        REFERENCES student (`S_ID`)
+        ON UPDATE CASCADE 
+        ON DELETE NO ACTION,
+    FOREIGN KEY (`C_SEC_ID`)
+        REFERENCES course_section (`C_SEC_ID`)
+        ON UPDATE CASCADE 
+        ON DELETE RESTRICT
 );

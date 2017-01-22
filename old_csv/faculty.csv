@@ -1,0 +1,7 @@
+F_ID,F_LAST,F_FIRST,F_MI,LOC_ID,F_PHONE,F_RANK,F_SUPER,F_PIN
+Number,String,String,String,Number,String,String,Number,String
+1,Marx,Teresa,J,9,3251234567,Associate,4,6339
+2,Zhulin,Mark,M,10,3252345678,Full,,1121
+3,Langley,Colin,A,12,3253456789,Assistant,4,9871
+4,Brown,Jonnel,D,11,3254567890,Full,,8297
+5,Sealy,James,L,13,3255678901,Associate,2,6089

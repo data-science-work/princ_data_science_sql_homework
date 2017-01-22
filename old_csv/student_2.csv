@@ -1,0 +1,8 @@
+S_ID,S_LAST,S_FIRST,S_MI,S_ADDRESS,S_CITY,S_STATE,S_ZIP,S_PHONE,S_CLASS,S_DOB,S_PIN,F_ID,DATE_ENROLLED
+Number,String,String,String,String,String,String,String,String,String,Date/Time,String,Number,String
+1,Jones,Tammy,R,1817 Eagleridge Circle,Houston,TX,77027,3250987654,SR,7/14/86,8891,1,6/3/03
+2,Perez,Jorge,C,951 Rainbow Drive,Abilene,TX,79901,3258765432,SR,8/19/86,1230,1,1/10/02
+3,Marsh,John,A,1275 W Main St,Dallas,TX,78012,3257654321,JR,10/10/83,1613,1,8/24/03
+4,Smith,Mike,,428 EN 16 Street,Abilene,TX,79902,3256543210,SO,9/24/87,1841,2,8/23/04
+5,Johnson,Lisa,M,764 College Drive,Abilene,TX,79901,3255432109,SO,11/20/87,4420,4,1/8/05
+6,Nguyen,Ni,M,688 4thStreet,Ft Worth,TX,78767,3254321098,FR,12/4/88,9188,3,8/22/06
