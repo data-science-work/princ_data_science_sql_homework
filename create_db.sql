@@ -6,6 +6,15 @@ USE LIPSCOMB;
 /* ---------- LISPCOMB DB ---------- */
 
 
+/*---------- COURSE TABLE ----------
+pk: COURSE_ID | Unique identifier for the COURSE table.
+                COURSE_SEC table will use COURSE_ID
+                as fk.
+fk: none
+ric:
+    on update: none
+    on delete: none
+*/
 CREATE TABLE `COURSE` (
     `COURSE_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
     `COURSE_NO` VARCHAR(10) NOT NULL,
@@ -15,7 +24,9 @@ CREATE TABLE `COURSE` (
 
 
 /*---------- LOCATION TABLE ----------
-pk: LOC_ID
+pk: LOC_ID | Unique identifier for LOCATION table.
+             FACULTY and COURSE_SEC tables will 
+             use LOC_ID as fk.
 fk: none
 ric:
     on update: none
@@ -30,12 +41,14 @@ CREATE TABLE `LOCATION` (
 
 
 /*---------- FACULTY TABLE ----------
-pk: F_ID
-fk: LOC_ID
+pk: F_ID | Unique identifier for FACULTY table.
+           STUDENT will use F_ID as fk.
+fk: LOC_ID, F_SUPER
 ric:
     on update: cascade | will update the student table and course_section table.
-    on delte: restrict | delete is restricted the location table since
-                         location are asigned to faculty members.
+    on delete: restrict | delete is restricted for location table since
+                         LOC_ID is assigned to faculty members as fk.
+                         F_SUPER links back to F_ID.
 */
 CREATE TABLE `FACULTY` (
     `F_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -59,8 +72,8 @@ pk: S_ID
 fk: F_ID
 ric:
     on update: cascade  | will update the faculty table and enrollment table.
-    on delete: restrict | delete is restricted to the faculty table since 
-                         students are asigned to faculty members.
+    on delete: restrict | delete is restricted to the FACULTY table since 
+                         F_ID is a fk in STUDENT table.
 */
 CREATE TABLE `STUDENT` (
     `S_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -103,9 +116,10 @@ CREATE TABLE `TERM` (
 pk: C_SEC_ID
 fk: COURSE_ID, TERM_ID, F_ID, LOC_ID
 ric:
-    on update: cascade   | will update the enrollment table.
-    on delete: no action | delete no action on the tabels course,
-                          term, faculty and location.
+    on update: cascade   | update will update the enrollment table.
+    on delete: no action | delete has no action on tables COURSE,
+                           TERM, FACULTY and LOCATION. Each
+                           section depend on all 4 fk.
 */
 CREATE TABLE `COURSE_SECTION` (
     `C_SEC_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -142,8 +156,8 @@ pk: enr_id
 fk: s_id, c_sec_id
 ric:
     on update: cascade                | will update the faculty table and enrollment table.
-    on delete: restrict and no action | delete is restricted on course_section table
-                                        and no action on student table.
+    on delete: restrict and no action | delete is restricted on COURSE_SECTION table
+                                        and no action on STUDENT table.
 */
 CREATE TABLE `ENROLLMENT` (
     `ENR_ID` INTEGER PRIMARY KEY AUTO_INCREMENT,
