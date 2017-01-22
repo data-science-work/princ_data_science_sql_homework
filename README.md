@@ -1,26 +1,14 @@
 # SQL LAB ASSIGNMENT
 
-**Name:** _Gilberto Diaz, Ash Yenamandra
+**Name:** _Gilberto Diaz, Ash Yenamandra_
 
-**Profesor:** _Dr. Fortune Mhlanga Ph. D_
+**Professor:** _Dr. Fortune Mhlanga Ph. D_
 
 **Course:** _Principle of Data Science MSDS5013_
 
 ## Lipscomb Database
 
 > The current `README.md` file have all the steps the team took to complete the SQL Lab Assignment. Also, the `create_db.sql` file has comments explaining the selection of `pk`, `fk`, and the referential integrity constraints.
-
-#### Primary and Foreign Key's Table
-
-Table|Primary Key|Foreign Key
----|---|---
-LOCATION|LOC_ID|None
-STUDENT|S\_ID|F\_ID => Reference to FACULTY (F_ID)
-FACULTY|F\_ID|F\_SUPER => Reference to FACULTY (F_\_ID)
-TERM|TERM_ID|None
-COURSE|COURSE_ID|None
-COURSE\_SECTION|C\_SEC_ID\_ID|COURSE\_ID => Reference to COURSE (COURSE\_ID), TERM\_ID => Reference to TERM (TERM\_ID), F\_ID => Reference to FACULTY (F\_ID), LOC\_ID => Reference to LOCATION (LOC\_ID)
-ENROLLMENT|ENR\_ID|S\_ID => Reference to STUDENT (S\_ID), C\_SEC\_ID => Reference to COURSE\_SECTION (C\_SEC_ID)
 
 #### Create database code
 
@@ -202,8 +190,28 @@ CREATE TABLE `ENROLLMENT` (
 );
 ```
 
+### Primary and Foreign Key's Table
 
-### Data Transformation
+Table|Primary Key|Foreign Key
+---|---|---
+LOCATION|LOC_ID|None
+STUDENT|S\_ID|F\_ID => Reference to FACULTY (F_ID)
+FACULTY|F\_ID|F\_SUPER => Reference to FACULTY (F_\_ID)
+TERM|TERM_ID|None
+COURSE|COURSE_ID|None
+COURSE\_SECTION|C\_SEC_ID\_ID|COURSE\_ID => Reference to COURSE (COURSE\_ID), TERM\_ID => Reference to TERM (TERM\_ID), F\_ID => Reference to FACULTY (F\_ID), LOC\_ID => Reference to LOCATION (LOC\_ID)
+ENROLLMENT|ENR\_ID|S\_ID => Reference to STUDENT (S\_ID), C\_SEC\_ID => Reference to COURSE\_SECTION (C\_SEC_ID)
 
-1. Load data from `.doc` format to `.xcl` format and then exported to `.csv`.
-1. After creating the database, load the `.csv` into the database.
+
+### Data Transformation and Loading to Database
+
+> The original files containing the data were in `.doc` files. That data was transferred to `.xcl` files and subsequently exported to `.csv` files. After creating `.csv` files and the database, the `.csv` files were loaded into the database.
+
+### Foreign Key's Deletes and Updates
+
+Table|Foreign Key|Justification Description
+---|---|---
+Student|F_ID|Restricted delete, cascade update on Faculty when delete on Student table.
+Faculty|LOC_ID|Restricted delete, cascade update on Location when delete on Faculty table.
+Course Section|COURSE\_ID, TERM\_ID, F\_ID, LOC\_ID|No action delete, cascade update on Course, Term, Faculty, and Location tables.
+Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table and restrict delete, cascade update on Course Section table.
