@@ -225,9 +225,27 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
 
 ## Checking Your Database
 
-- Error Code: 1062. Duplicate entry '12' for key 'PRIMARY'.
+- Insert into `COURSE_SECTION`
+    - Error Code: 1062. Duplicate entry '12' for key 'PRIMARY'.
+    - Error Code: 1062. Duplicate entry '12' for key 'PRIMARY'
+    - Error Code: 1062. Duplicate entry '2' for key 'PRIMARY'
 
 > The time fields for the insert to `COURSE_SECTION` had to be changed otherwise a syntax error would returned. With time formated the duplicated entry error is returned.
 
-- 
+- Insert into `FACULTY`
+    - Error Code: 1062. Duplicate entry '4' for key 'PRIMARY'.
+    - Error Code: 1452. Cannot add or update a child row: a foreign key constraint fails (`lipscomb`.`faculty`, CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`LOC_ID`) REFERENCES `location` (`LOC_ID`) ON UPDATE CASCADE)
+> Last tuple shouldn't pass since the capacity of the location is already maxed out.
+
+- Insert into `COURSE`
+    - Error Code: 1062. Duplicate entry '4' for key 'PRIMARY'
+- Delete from `LOCATION`
+    - Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails (`lipscomb`.`faculty`, CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`LOC_ID`) REFERENCES `location` (`LOC_ID`) ON UPDATE CASCADE)
+- Delete from `TERM`
+    - 
+
+
+
+
+
 
