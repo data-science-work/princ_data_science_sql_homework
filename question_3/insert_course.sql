@@ -1,0 +1,4 @@
+INSERT INTO COURSE
+    (COURSE_ID,COURSE_NO,COURSE_NAME,CREDITS)
+VALUES
+    (4, 'CS 120', 'Intro. to Programming in C++', 3);
