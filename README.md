@@ -10,7 +10,9 @@
 
 > The current `README.md` file have all the steps the team took to complete the SQL Lab Assignment. Also, the `create_db.sql` file has comments explaining the selection of `pk`, `fk`, and the referential integrity constraints.
 
-#### Create database code
+## Defining The Database [64 points]
+
+### Create database code
 
 ```sql
 CREATE DATABASE IF NOT EXISTS LIPSCOMB;
@@ -203,9 +205,6 @@ COURSE\_SECTION|C\_SEC_ID\_ID|COURSE\_ID => Reference to COURSE (COURSE\_ID), TE
 ENROLLMENT|ENR\_ID|S\_ID => Reference to STUDENT (S\_ID), C\_SEC\_ID => Reference to COURSE\_SECTION (C\_SEC_ID)
 
 
-### Data Transformation and Loading to Database
-
-> The original files containing the data were in `.doc` files. That data was transferred to `.xcl` files and subsequently exported to `.csv` files. After creating `.csv` files and the database, the `.csv` files were loaded into the database.
 
 ### Foreign Key's Deletes and Updates
 
@@ -215,3 +214,11 @@ Student|F_ID|Restricted delete, cascade update on Faculty when delete on Student
 Faculty|LOC_ID|Restricted delete, cascade update on Location when delete on Faculty table.
 Course Section|COURSE\_ID, TERM\_ID, F\_ID, LOC\_ID|No action delete, cascade update on Course, Term, Faculty, and Location tables.
 Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table and restrict delete, cascade update on Course Section table.
+
+### Variable Attributes
+
+> Some variables where recommended to be `string` typed and got changed something else. For instance, `START_DATE` in the `TERM` table was a `string` typed and got changed to `date` data typed. The `ENROLLMENT` table got added a unique primary key named `ENR_ID`. Also, in the `FACULTY` table, the `F_SUPER` field got converted to a foreign key that references to the primary key in the same table which is `F_ID`. This is done to find who is the supervisor of specific faculty member.
+
+## Population Your Database [14 points]
+
+> The original files containing the data were in `.doc` files. That data was transferred to `.xcl` files and subsequently exported to `.csv` files. After creating `.csv` files and the database, the `.csv` files were loaded into the database.
