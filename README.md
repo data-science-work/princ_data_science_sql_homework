@@ -239,11 +239,15 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
 
 - Insert into `COURSE`
     - Error Code: 1062. Duplicate entry '4' for key 'PRIMARY'
+> It's trying to add data without a unique primary key.
 - Delete from `LOCATION`
     - Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails (`lipscomb`.`faculty`, CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`LOC_ID`) REFERENCES `location` (`LOC_ID`) ON UPDATE CASCADE)
 - Delete from `TERM`
-    - 
+    - Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails (`lipscomb`.`course_section`, CONSTRAINT `course_section_ibfk_2` FOREIGN KEY (`TERM_ID`) REFERENCES `term` (`TERM_ID`) ON DELETE NO ACTION ON UPDATE CASCADE)
 
+## Simple Database Queries
+
+1.
 
 
 
