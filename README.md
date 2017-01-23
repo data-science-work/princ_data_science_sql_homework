@@ -618,7 +618,45 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
 
 ## Question 7: Updating the Database
 
-1.
+1. Change the room to `BUS 211` for all courses taught by Brown.
 
+    ```sql
+    CREATE TEMPORARY TABLE
+    tmpUPDATE (C_SEC_ID INT);
+    INSERT INTO tmpUPDATE
+    SELECT C_SEC_ID FROM COURSE_SECTION CS
+    JOIN FACULTY F
+        ON CS.F_ID = F.F_ID
+    WHERE F.F_LAST = 'BROWN';
+    UPDATE COURSE_SECTION 
+    SET LOC_ID = 8
+    WHERE C_SEC_ID IN (
+    SELECT C_SEC_ID FROM tmpUPDATE);
+
+    SELECT * FROM COURSE_SECTION;
+    ```
+    ![Question 7-a](./images/question_7_a.png)
+
+1. Create and fill a new table, called `ENROLLMENT_NUMBERS`, which shows each course number and the number of students enrolled in it per section for the Spring of 2008. Display the `ENROLLMENT_NUMBERS` table.
+
+    ```sql
+    CREATE TABLE ENROLLMENT_NUMBERS (
+    COURSE_ID INTEGER,
+    C_SEC_ID INTEGER,
+    ENROLLMENTS INTEGER);
+
+    INSERT INTO ENROLLMENT_NUMBERS
+    SELECT COURSE_ID, CS.C_SEC_ID, COUNT(S_ID) AS ENROLLMENTS
+    FROM COURSE_SECTION CS
+    JOIN ENROLLMENT E
+        ON CS.C_SEC_ID = E.C_SEC_ID
+    JOIN TERM T
+        ON CS.TERM_ID = T.TERM_ID
+    WHERE T.TERM_DESC = 'SPRING 2008'
+    GROUP BY COURSE_ID, CS.C_SEC_ID;
+
+    SELECT * FROM ENROLLMENT_NUMBERS;
+    ```
+    ![Question 7-b](./images/question_7_b.png)
 
 
