@@ -247,6 +247,11 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
 
 ## Simple Database Queries
 
+1. Which students have A's and B's?
+    - > Query a., for some reason I can't resolve, doesn't returned any result.
+1. Retrieve the terms for the 2007 academic year.
+
+    ![Question 4-b](./images/question_4_b.png)
 1.
 
 
