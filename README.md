@@ -256,7 +256,7 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
         ON ENROLLMENT.S_ID = STUDENT.S_ID
     WHERE ENROLLMENT.GRADE IN ("A","B");
     ```
-    ![Query 4-a](./images/question_4_a.png)
+    ![Query 4-a](./images/question_4_a.png) 
 
 1. Retrieve the terms for the 2007 academic year.
 
@@ -264,7 +264,7 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     SELECT * FROM TERM
     WHERE TERM_DESC LIKE '%2007';
     ```
-    ![Question 4-b](./images/question_4_b.png)
+    ![Question 4-b](./images/question_4_b.png)  
 
 1. List the building code, room, and capacity for all the rooms. Sort the result in ascending order by building code then by room.
     
@@ -313,7 +313,7 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     ) A
         ) B
     ```
-    ![Question 4-e](./images/question_4_e.png)
+    ![Question 4-e](./images/question_4_e.png)  
 
 1. What is the total number of courses for which student Lisa Johnson has received a grade?
 
@@ -330,7 +330,7 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     AND S_LAST = 'JOHNSON'
     AND (GRADE IS NOT NULL);
     ```
-    ![Question 4-f](./images/question_4_f.png) 
+    ![Question 4-f](./images/question_4_f.png)  
 
 1. Use the GROUP BY clause to list the building code and the total capacity of each building, but only for those buildings whose total capacity exceeds 100,
 
@@ -340,7 +340,7 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     GROUP BY BLDG_CODE
     HAVING SUM(CAPACITY) > 100;
     ```
-    ![Question 4-g](./images/question_4_g.png) 
+    ![Question 4-g](./images/question_4_g.png)  
 
 1. For each student, list the student ID, student last name, student first name, faculty ID, and faculty last name.
 
@@ -350,7 +350,7 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     JOIN FACULTY F
         ON S.F_ID = F.F_ID
     ```
-    ![Question 4-h](./images/question_4_h.png)
+    ![Question 4-h](./images/question_4_h.png)  
 
 1. List the last names of faculty who are teaching in the Summer 2008 term.
 
@@ -364,7 +364,7 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     WHERE TERM_DESC = 'Summer 2008'
     ```
 
-    ![Question 4-i](./images/question_4_i.png) 
+    ![Question 4-i](./images/question_4_i.png)  
 
 1. List all the courses and grades for a student by the name Tammy Jones. Tammy doesn't remember her ID. She also doesn't remember all the courses she took.
 
@@ -382,7 +382,7 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     ```
     ![Question 4-j](./images/question_4_j.png)  
 
-1. Create a query that returns the union of the student and faculty tables over the attributes s_last, s_first, and s_phone from Student, and f_last, f_first, and f_phone from Faculty.
+1. Create a query that returns the union of the student and faculty tables over the attributes `S_LAST`, `S_FIRST`, and `S_PHONE` from `Student`, and `F_LAST`, F_FIRST`, and `F_PHONE` from `FACULTY`.
 
     ```sql
     SELECT S_LAST, S_FIRST, S_PHONE
@@ -391,11 +391,234 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     SELECT F_LAST, F_FIRST, F_PHONE
     FROM FACULTY F
     ```
-    ![Question 4-k](./images/question_4_k.png)
+    ![Question 4-k](./images/question_4_k.png)  
 
-- 
+## Question 5: Slightly Complex Database Queries
 
+1. Create a nested query to retrieve the first and last names of all students who have the same `S_CLASS` values as Jorge Perez.
 
+    ```sql
+    SELECT S_FIRST, S_LAST
+    FROM STUDENT S
+    WHERE S_CLASS = (
+        SELECT S_CLASS
+        FROM STUDENT S
+        WHERE S_FIRST = 'Jorge'
+        AND S_LAST = 'Perez'
+    )
+    ```
+    ![Question 5-a](./images/question_5_a.png)
+
+1. Create a nested query to retrieve the last and first names of all students who have enrolled in the same course sections as Jorge Perez.
+
+    ```sql
+    SELECT DISTINCT  S_LAST, S_FIRST
+    FROM STUDENT S
+    JOIN ENROLLMENT E
+        ON S.S_ID = E.S_ID
+    WHERE E.C_SEC_ID IN (
+    SELECT E.C_SEC_ID
+    FROM STUDENT S
+    JOIN ENROLLMENT E
+        ON S.S_ID = E.S_ID
+    WHERE S_FIRST = 'Jorge'
+    AND S_LAST = 'Perez'
+    )
+    ```
+    ![Question 5-b](./images/question_5_b.png)
+
+1. Create a nested query to retrieve the last and first names of all students who have the same `S_CLASS` value as Jorge Perez and who have also been enrolled in a course section with him.
+
+    ```sql
+    SELECT DISTINCT  S_LAST, S_FIRST
+    FROM STUDENT S
+    JOIN ENROLLMENT E
+        ON S.S_ID = E.S_ID
+    WHERE E.C_SEC_ID IN (
+    SELECT E.C_SEC_ID
+    FROM STUDENT S
+    JOIN ENROLLMENT E
+        ON S.S_ID = E.S_ID
+    WHERE S_FIRST = 'Jorge'
+    AND S_LAST = 'Perez'
+    )
+    AND S_CLASS = (
+    SELECT S_CLASS
+    FROM STUDENT S
+    WHERE S_FIRST = 'Jorge'
+    AND S_LAST = 'Perez'
+    )
+    ```
+    ![Question 5-c](./images/question_5_c.png)
+
+1. A nested sub-query is a sub-query which contains a second sub-query that specifies its search expression. Use a nested sub-query to create a query to retrieve the names of students who have taken courses with Jorge Perez in the `CR` building.
+
+    ```sql
+    SELECT S.S_FIRST, S.S_LAST
+    FROM STUDENT S
+    JOIN ENROLLMENT E
+        ON S.S_ID = E.S_ID
+    JOIN COURSE_SECTION CS
+        ON E.C_SEC_ID = CS.C_SEC_ID
+    WHERE CS.C_SEC_ID IN (
+            SELECT CS.C_SEC_ID
+            FROM STUDENT S
+            JOIN ENROLLMENT E
+                ON S.S_ID = E.S_ID
+            JOIN COURSE_SECTION CS
+                ON E.C_SEC_ID = CS.C_SEC_ID
+            JOIN LOCATION L
+                ON CS.LOC_ID = L.LOC_ID
+            WHERE S.S_ID IN (
+                    SELECT S.S_ID
+                    FROM STUDENT S
+                    WHERE S.S_FIRST = 'Jorge'
+                    and s.S_LAST = 'Perez'
+            )
+            AND BLDG_CODE = 'CR'
+    )
+    ```
+    ![Question 5-d](./images/question_5_d.png)
+
+1. Create a union query that displays the names of courses taken by students who were not Senior, in addition to courses that were offered in Term 6.
+
+    ```sql
+    SELECT  COURSE_NAME
+    FROM COURSE C
+    JOIN COURSE_SECTION CS
+        ON C.COURSE_ID = CS.COURSE_ID
+    JOIN ENROLLMENT E
+        ON CS.C_SEC_ID = E.C_SEC_ID
+    JOIN STUDENT S
+        ON E.S_ID = S.S_ID
+    WHERE S_CLASS <> 'SR'
+    UNION
+    SELECT  COURSE_NAME
+    FROM COURSE C
+    JOIN COURSE_SECTION CS
+        ON C.COURSE_ID = CS.COURSE_ID
+    JOIN ENROLLMENT E
+        ON CS.C_SEC_ID = E.C_SEC_ID
+    JOIN STUDENT S
+        ON E.S_ID = S.S_ID
+    WHERE TERM_ID = 6
+    ```
+    ![Question 5-e](./images/question_5_e.png)
+
+1. Use the Intersect set operator to create a query that satisfies both requirements of Question 5(e).
+
+    ```sql
+    SELECT DISTINCT   COURSE_NAME
+    FROM COURSE C
+    JOIN COURSE_SECTION CS
+        ON C.COURSE_ID = CS.COURSE_ID
+    JOIN ENROLLMENT E
+        ON CS.C_SEC_ID = E.C_SEC_ID
+    JOIN STUDENT S
+        ON E.S_ID = S.S_ID
+    WHERE S_CLASS <> 'SR'
+    AND COURSE_NAME IN (
+    SELECT  COURSE_NAME
+    FROM COURSE C
+    JOIN COURSE_SECTION CS
+        ON C.COURSE_ID = CS.COURSE_ID
+    JOIN ENROLLMENT E
+        ON CS.C_SEC_ID = E.C_SEC_ID
+    JOIN STUDENT S
+        ON E.S_ID = S.S_ID
+    WHERE TERM_ID = 6
+    )
+    ```
+    ![Question 5-f](./images/question_5_f.png)
+
+1. Use the Minus set operator to create a query that retrieves the courses that were taken by Freshmen, Sophomores, and Juniors, but were not offered in Term 6.
+
+    ```sql
+    SELECT DISTINCT COURSE_NAME
+    FROM COURSE C
+    JOIN COURSE_SECTION CS
+        ON C.COURSE_ID = CS.COURSE_ID
+    JOIN ENROLLMENT E
+        ON CS.C_SEC_ID = E.C_SEC_ID
+    JOIN STUDENT S
+        ON E.S_ID = S.S_ID
+    WHERE S_CLASS IN ('FR','SO','JR')
+    AND COURSE_NAME NOT IN (
+    SELECT  COURSE_NAME
+    FROM COURSE C
+    JOIN COURSE_SECTION CS
+        ON C.COURSE_ID = CS.COURSE_ID
+    JOIN ENROLLMENT E
+        ON CS.C_SEC_ID = E.C_SEC_ID
+    JOIN STUDENT S
+        ON E.S_ID = S.S_ID
+    WHERE TERM_ID = 6
+    )
+    ```
+    ![Question 5-g](./images/question_5_g.png)
+
+1. List the names of all junior faculty members and their supervisors.
+
+    ```sql
+    SELECT F.F_FIRST, F.F_LAST, F1.F_FIRST, F1.F_LAST
+    FROM FACULTY F
+    JOIN FACULTY F1
+        ON F.F_SUPER = F1.F_ID
+    ```
+    ![Question 5-h](./images/question_5_h.png)
+
+## Question 6: Experimenting with Views
+
+1. Create a view named `FACULTY_VIEW` which contains all of the faculty columns expect `F_PIN`.
+
+    ```sql
+    CREATE VIEW FACULTY_VIEW AS
+    SELECT F_ID, F_LAST, F_FIRST, F_MI, LOC_ID, F_PHONE, F_RANK, F_SUPER 
+    FROM FACULTY F;
+
+    SELECT * FROM FACULTY_VIEW;
+    ```
+    ![Question 6-a](./images/question_6_a.png)
+
+1. Insert the following tuple into `FACULTY_VIEW`: `(6, 'May', 'Lisa', 'I', 11, '3256789012', 'Assistant')`.
+
+    ```sql
+    INSERT INTO FACULTY_VIEW
+        (F_ID,F_LAST,F_FIRST,F_MI,LOC_ID,F_PHONE,F_RANK,F_SUPER)
+    VALUES(6, "May", "Lisa", "I", 11, "3256789012", "Assistant", NULL);
+
+    SELECT * FROM FACULTY_VIEW;
+    ```
+
+1. Retrieve all the tuples of `FACULTY_VIEW` to confirm that the new faculty member `(May, Lisa)` is included.
+
+    ![Question 6-c](./images/question_6_c.png)
+
+1. Explain the effect of insert operation in question `(b)` to the database. Why is this so?
+    > The underlying table `FACULTY` got updated but table doesn't have a default value. The `F_PIN` field has a `NOT NULL` constraint.
+
+1. Create a query that joins `FACULTY_VIEW` with `LOCATION` to list the names of each faculty member, along with the building code and room number of the faculty member's office.
+
+    ```sql
+    SELECT F_FIRST, F_LAST, BLDG_CODE, ROOM
+    FROM FACULTY_VIEW FV
+    JOIN LOCATION L
+        ON FV.LOC_ID = L.LOC_ID
+    ```
+    ![Question 6-e](./images/question_6_e.png)
+
+1. Remove `FACULTY_VIEW` from your user schema.
+
+    ```sql
+    DROP VIEW FACULTY_VIEW;
+    ```
+
+1. Explain the effect (if any) of `(f)` to the database.
+    > The `FACULTY_VIEW` got deleted, however, the underlying is not affected. The tuple inserted on `(b)` remained on `FACULTY` table.
+
+## Question 7: Updating the Database
+
+1.
 
 
 
