@@ -5,8 +5,24 @@
 **Professor:** _Dr. Fortune Mhlanga Ph. D_
 
 **Course:** _Principle of Data Science MSDS5013_
+<!-- TOC -->
 
-## Lipscomb Database
+- [SQL LAB ASSIGNMENT](#sql-lab-assignment)
+- [Lipscomb Database](#lipscomb-database)
+    - [Question 1: Defining The Database](#question-1-defining-the-database)
+        - [Create database code](#create-database-code)
+        - [Primary and Foreign Key's Table](#primary-and-foreign-keys-table)
+        - [Foreign Key's Deletes and Updates](#foreign-keys-deletes-and-updates)
+        - [Variable Attributes](#variable-attributes)
+    - [Question 2: Populating Your Database](#question-2-populating-your-database)
+    - [Question 3: Checking Your Database](#question-3-checking-your-database)
+    - [Question 4: Simple Database Queries](#question-4-simple-database-queries)
+    - [Question 5: Slightly Complex Database Queries](#question-5-slightly-complex-database-queries)
+    - [Question 6: Experimenting with Views](#question-6-experimenting-with-views)
+    - [Question 7: Updating the Database](#question-7-updating-the-database)
+
+<!-- /TOC -->
+# Lipscomb Database
 
 > The current `README.md` file have all the steps the team took to complete the SQL Lab Assignment. Also, the `create_db.sql` file has comments explaining the selection of `pk`, `fk`, and the referential integrity constraints.
 
