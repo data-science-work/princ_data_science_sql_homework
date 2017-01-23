@@ -247,10 +247,18 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
 
 ## Question 4: Simple Database Queries
 
-- Which students have A's and B's?
-    - > Query a., for some reason I can't resolve, doesn't returned any result.
+1. Which students have A's and B's?
 
-- Retrieve the terms for the 2007 academic year.
+    ```sql
+    SELECT DISTINCT STUDENT.S_ID, S_LAST, S_FIRST
+    FROM ENROLLMENT
+    JOIN STUDENT
+        ON ENROLLMENT.S_ID = STUDENT.S_ID
+    WHERE ENROLLMENT.GRADE IN ("A","B");
+    ```
+    ![Query 4-a](./images/question_4_a.png)
+
+1. Retrieve the terms for the 2007 academic year.
 
     ```sql
     SELECT * FROM TERM
@@ -258,27 +266,25 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     ```
     ![Question 4-b](./images/question_4_b.png)
 
-- List the building code, room, and capacity for all the rooms. Sort the result in ascending order by building code then by room.
+1. List the building code, room, and capacity for all the rooms. Sort the result in ascending order by building code then by room.
     
     ```sql
     SELECT BLDG_CODE, ROOM, CAPACITY
     FROM LOCATION
     ORDER BY BLDG_CODE, ROOM;
     ```
-
     ![Question 4-c](./images/question_4_c.png)  
 
-- Suppose LIPSCOMB charges $730.00 per credit hour for tuition. To determine how much tuition a student is charged for a class, you can simply multiply the number of credit hours earned for a course by the credit hour tuition rate. For each course, list the course number, course name, and tuition charge.
+1. Suppose LIPSCOMB charges $730.00 per credit hour for tuition. To determine how much tuition a student is charged for a class, you can simply multiply the number of credit hours earned for a course by the credit hour tuition rate. For each course, list the course number, course name, and tuition charge.
     
     ```sql
     SELECT COURSE_NO, COURSE_NAME, 
     CONCAT('$', FORMAT(CREDITS * 730, 2)) AS TUITION_CHARGE
     FROM COURSE;
     ```
-
     ![Question 4-d](./images/question_4_d.png)  
 
-- In one query, use group functions to sum the maximum enrollment for all course sections and calculate the average, maximum, and minimum current enrollment for the Summer 2008 term.
+1. In one query, use group functions to sum the maximum enrollment for all course sections and calculate the average, maximum, and minimum current enrollment for the Summer 2008 term.
 
     ```sql
     SELECT A.C_SEC_ID, A.SUM_MAX_ENROLLMENTS, B.AVERAGE_CURRENT_ENROLLMENT, 
@@ -307,10 +313,9 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     ) A
         ) B
     ```
-
     ![Question 4-e](./images/question_4_e.png)
 
-- What is the total number of courses for which student Lisa Johnson has received a grade?
+1. What is the total number of courses for which student Lisa Johnson has received a grade?
 
     ```sql
     SELECT COUNT(DISTINCT C.COURSE_ID) COURSE_COUNT
@@ -325,10 +330,9 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     AND S_LAST = 'JOHNSON'
     AND (GRADE IS NOT NULL);
     ```
-
     ![Question 4-f](./images/question_4_f.png) 
 
-- Use the GROUP BY clause to list the building code and the total capacity of each building, but only for those buildings whose total capacity exceeds 100,
+1. Use the GROUP BY clause to list the building code and the total capacity of each building, but only for those buildings whose total capacity exceeds 100,
 
     ```sql
     SELECT BLDG_CODE, SUM(CAPACITY)
@@ -336,10 +340,9 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     GROUP BY BLDG_CODE
     HAVING SUM(CAPACITY) > 100;
     ```
-
     ![Question 4-g](./images/question_4_g.png) 
 
-- For each student, list the student ID, student last name, student first name, faculty ID, and faculty last name.
+1. For each student, list the student ID, student last name, student first name, faculty ID, and faculty last name.
 
     ```sql
     SELECT S.S_ID, S.S_LAST, S.S_FIRST, S.F_ID, F.F_LAST
@@ -347,10 +350,9 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     JOIN FACULTY F
         ON S.F_ID = F.F_ID
     ```
-
     ![Question 4-h](./images/question_4_h.png)
 
-- List the last names of faculty who are teaching in the Summer 2008 term.
+1. List the last names of faculty who are teaching in the Summer 2008 term.
 
     ```sql
     SELECT F.F_LAST
@@ -364,7 +366,7 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
 
     ![Question 4-i](./images/question_4_i.png) 
 
-- List all the courses and grades for a student by the name Tammy Jones. Tammy doesn't remember her ID. She also doesn't remember all the courses she took.
+1. List all the courses and grades for a student by the name Tammy Jones. Tammy doesn't remember her ID. She also doesn't remember all the courses she took.
 
     ```sql
     SELECT COURSE_NAME, GRADE, S.S_ID
@@ -378,10 +380,9 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     WHERE S_FIRST = 'Tammy'
     AND S_LAST = 'Jones'
     ```
-
     ![Question 4-j](./images/question_4_j.png)  
 
-- Create a query that returns the union of the student and faculty tables over the attributes s_last, s_first, and s_phone from Student, and f_last, f_first, and f_phone from Faculty.
+1. Create a query that returns the union of the student and faculty tables over the attributes s_last, s_first, and s_phone from Student, and f_last, f_first, and f_phone from Faculty.
 
     ```sql
     SELECT S_LAST, S_FIRST, S_PHONE
@@ -390,7 +391,6 @@ Enrollment|S\_ID, C\_SEC\_ID|No Action delete, cascade update on Student table a
     SELECT F_LAST, F_FIRST, F_PHONE
     FROM FACULTY F
     ```
-
     ![Question 4-k](./images/question_4_k.png)
 
 - 
